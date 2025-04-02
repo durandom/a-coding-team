@@ -48,10 +48,70 @@ function isValidModeFile(filePath: string): boolean {
 }
 
 /**
- * Extract custom instructions from a mode file and save to markdown
+ * Parse markdown content to extract JSON fields
+ * @param markdownContent The markdown content to parse
+ * @param existingJsonData Existing JSON data to update
+ * @returns Updated JSON data
+ */
+function parseMarkdownToJson(markdownContent: string, existingJsonData: any): any {
+  const jsonData = { ...existingJsonData };
+
+  // Split the content into sections by level 1 and level 2 headers
+  const sections = markdownContent.split(/^# |\n## /m);
+
+  // Process the first section (title with slug)
+  if (sections.length > 0) {
+    const titleMatch = sections[0].match(/\[slug:([^\]]+)\]\s+(.+?)(?:\n|$)/);
+    if (titleMatch) {
+      jsonData.slug = titleMatch[1].trim();
+      jsonData.name = titleMatch[2].trim();
+    }
+  }
+
+  // Process the remaining sections
+  for (let i = 1; i < sections.length; i++) {
+    const section = sections[i];
+    const sectionMatch = section.match(/\[([^\]]+)\]\s*\n([\s\S]+?)(?=\n## \[|$)/);
+
+    if (sectionMatch) {
+      const sectionName = sectionMatch[1].trim();
+      let sectionContent = sectionMatch[2].trim();
+
+      // Handle different section types
+      switch (sectionName) {
+        case 'roleDefinition':
+          jsonData.roleDefinition = sectionContent;
+          break;
+        case 'customInstructions':
+          jsonData.customInstructions = sectionContent;
+          break;
+        case 'groups':
+        case 'apiConfiguration':
+          // Extract JSON content from code blocks
+          const jsonMatch = sectionContent.match(/```json\s*([\s\S]+?)\s*```/);
+          if (jsonMatch) {
+            try {
+              jsonData[sectionName] = JSON.parse(jsonMatch[1]);
+            } catch (error) {
+              console.error(`Error parsing JSON in ${sectionName} section:`, error);
+            }
+          }
+          break;
+        case 'source':
+          jsonData.source = sectionContent;
+          break;
+      }
+    }
+  }
+
+  return jsonData;
+}
+
+/**
+ * Convert JSON mode file to markdown (json2md)
  * @param filePath Path to the mode JSON file
  */
-function extractCustomInstructions(filePath: string): void {
+function convertJsonToMarkdown(filePath: string): void {
   try {
     const fileContent = readFileSync(filePath, 'utf8');
     const jsonData = JSON.parse(fileContent);
@@ -63,10 +123,30 @@ function extractCustomInstructions(filePath: string): void {
 
     // Create output filename
     const fileName = basename(filePath, '.json');
-    const outputPath = join(dirname(filePath), `${fileName}.custominstructions.markdown`);
+    const outputPath = join(dirname(filePath), `${fileName}.md`);
 
-    // Create markdown content
-    const markdownContent = `# Custom Instructions for ${jsonData.name}\n\n${jsonData.customInstructions}`;
+    // Create markdown content with machine-readable tags
+    let markdownContent = '';
+
+    // Add slug
+    markdownContent += `# [slug:${jsonData.slug}] ${jsonData.name}\n\n`;
+
+    // Add role definition
+    markdownContent += `## [roleDefinition]\n${jsonData.roleDefinition}\n\n`;
+
+    // Add custom instructions
+    markdownContent += `## [customInstructions]\n${jsonData.customInstructions}\n\n`;
+
+    // Add groups
+    markdownContent += `## [groups]\n\`\`\`json\n${JSON.stringify(jsonData.groups, null, 2)}\n\`\`\`\n\n`;
+
+    // Add apiConfiguration if it exists
+    if (jsonData.apiConfiguration) {
+      markdownContent += `## [apiConfiguration]\n\`\`\`json\n${JSON.stringify(jsonData.apiConfiguration, null, 2)}\n\`\`\`\n\n`;
+    }
+
+    // Add source
+    markdownContent += `## [source]\n${jsonData.source || 'custom'}\n`;
 
     // Ensure directory exists
     const dir = dirname(outputPath);
@@ -76,21 +156,21 @@ function extractCustomInstructions(filePath: string): void {
 
     // Write to file
     writeFileSync(outputPath, markdownContent);
-    console.log(`Extracted custom instructions to ${outputPath}`);
+    console.log(`Converted JSON to markdown: ${outputPath} (${fileName}.md)`);
   } catch (error) {
-    console.error(`Error extracting custom instructions from ${filePath}:`, error);
+    console.error(`Error converting JSON to markdown from ${filePath}:`, error);
   }
 }
 
 /**
- * Include custom instructions from a markdown file into a mode file
+ * Convert markdown file to JSON mode file (md2json)
  * @param jsonFilePath Path to the mode JSON file
  */
-function includeCustomInstructions(jsonFilePath: string): void {
+function convertMarkdownToJson(jsonFilePath: string): void {
   try {
     // Check if the corresponding markdown file exists
     const fileName = basename(jsonFilePath, '.json');
-    const markdownPath = join(dirname(jsonFilePath), `${fileName}.custominstructions.markdown`);
+    const markdownPath = join(dirname(jsonFilePath), `${fileName}.md`);
 
     if (!existsSync(markdownPath)) {
       console.log(`No custom instructions file found for ${jsonFilePath}`);
@@ -111,26 +191,22 @@ function includeCustomInstructions(jsonFilePath: string): void {
     // Read the markdown file
     const markdownContent = readFileSync(markdownPath, 'utf8');
 
-    // Extract the content (remove the title line)
-    const lines = markdownContent.split(/\r?\n/);
-    const contentWithoutTitle = lines.slice(1).join(EOL).trim();
-
-    // Update the JSON data
-    jsonData.customInstructions = contentWithoutTitle;
+    // Parse the markdown content to extract JSON fields
+    jsonData = parseMarkdownToJson(markdownContent, jsonData);
 
     // Write the updated JSON back to the file
     writeFileSync(jsonFilePath, JSON.stringify(jsonData, null, 2));
-    console.log(`Updated custom instructions in ${jsonFilePath} from ${markdownPath}`);
+    console.log(`Converted markdown to JSON: ${jsonFilePath} (${fileName}.json)`);
   } catch (error) {
-    console.error(`Error including custom instructions into ${jsonFilePath}:`, error);
+    console.error(`Error converting markdown to JSON for ${jsonFilePath}:`, error);
   }
 }
 
 /**
- * Process all JSON files in the modes directory
+ * Process all JSON files in the modes directory for json2md conversion
  * @param modesDir Path to the modes directory
  */
-function processModesDirectory(modesDir: string): void {
+function processModesDirectoryForJson2Md(modesDir: string): void {
   try {
     if (!existsSync(modesDir)) {
       console.error(`Modes directory not found: ${modesDir}`);
@@ -150,7 +226,7 @@ function processModesDirectory(modesDir: string): void {
     for (const file of jsonFiles) {
       const filePath = join(modesDir, file);
       if (isValidModeFile(filePath)) {
-        extractCustomInstructions(filePath);
+        convertJsonToMarkdown(filePath);
         validFilesCount++;
       } else {
         console.log(`Skipping ${file} - not a valid RU custom mode file`);
@@ -159,15 +235,15 @@ function processModesDirectory(modesDir: string): void {
 
     console.log(`Processed ${validFilesCount} valid mode files out of ${jsonFiles.length} JSON files`);
   } catch (error) {
-    console.error(`Error processing modes directory:`, error);
+    console.error(`Error processing modes directory for json2md:`, error);
   }
 }
 
 /**
- * Process all JSON files in the modes directory for including custom instructions
+ * Process all JSON files in the modes directory for md2json conversion
  * @param modesDir Path to the modes directory
  */
-function processModesDirectoryForInclude(modesDir: string): void {
+function processModesDirectoryForMd2Json(modesDir: string): void {
   try {
     if (!existsSync(modesDir)) {
       console.error(`Modes directory not found: ${modesDir}`);
@@ -187,7 +263,7 @@ function processModesDirectoryForInclude(modesDir: string): void {
     for (const file of jsonFiles) {
       const filePath = join(modesDir, file);
       if (isValidModeFile(filePath)) {
-        includeCustomInstructions(filePath);
+        convertMarkdownToJson(filePath);
         updatedFilesCount++;
       } else {
         console.log(`Skipping ${file} - not a valid RU custom mode file`);
@@ -196,7 +272,7 @@ function processModesDirectoryForInclude(modesDir: string): void {
 
     console.log(`Processed ${updatedFilesCount} valid mode files out of ${jsonFiles.length} JSON files`);
   } catch (error) {
-    console.error(`Error processing modes directory for include:`, error);
+    console.error(`Error processing modes directory for md2json:`, error);
   }
 }
 
@@ -205,8 +281,10 @@ function processModesDirectoryForInclude(modesDir: string): void {
  * @param args Command line arguments
  * @returns Object containing parsed options
  */
-function parseOptions(args: string[]): { modesDir: string } {
+function parseOptions(args: string[]): { modesDir: string, templateJson: boolean, templateMd: boolean } {
   let modesDir = 'modes'; // Default value
+  let templateJson = false;
+  let templateMd = false;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--modes-dir' && i + 1 < args.length) {
@@ -214,10 +292,128 @@ function parseOptions(args: string[]): { modesDir: string } {
       // Remove the option and its value from args
       args.splice(i, 2);
       i--; // Adjust index after removal
+    } else if (args[i] === '--template-json') {
+      templateJson = true;
+      // Remove the option from args
+      args.splice(i, 1);
+      i--; // Adjust index after removal
+    } else if (args[i] === '--template-md') {
+      templateMd = true;
+      // Remove the option from args
+      args.splice(i, 1);
+      i--; // Adjust index after removal
     }
   }
 
-  return { modesDir };
+  return { modesDir, templateJson, templateMd };
+}
+
+/**
+ * Create a template JSON file
+ * @param outputPath Path to save the template JSON file
+ * @param modesDir Directory where modes are stored
+ */
+function createTemplateJson(outputPath: string, modesDir: string): void {
+  try {
+    const templateJson = {
+      slug: "example-mode",
+      name: "Example Mode",
+      roleDefinition: "You are an example mode that demonstrates the structure of a custom mode.",
+      groups: [
+        "read",
+        ["edit", {
+          "fileRegex": "\\.md$",
+          "description": "Markdown files only"
+        }],
+        "browser",
+        "command"
+      ],
+      customInstructions: "This is where you would put your custom instructions for the mode.",
+      apiConfiguration: {
+        "model": "gpt-4",
+        "temperature": 0.2
+      },
+      source: "custom"
+    };
+
+    // Ensure directory exists
+    const dir = dirname(outputPath);
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
+
+    // Write to file
+    writeFileSync(outputPath, JSON.stringify(templateJson, null, 2));
+    console.log(`Created template JSON file at ${outputPath}`);
+  } catch (error) {
+    console.error(`Error creating template JSON file:`, error);
+  }
+}
+
+/**
+ * Create a template markdown file
+ * @param outputPath Path to save the template markdown file
+ * @param modesDir Directory where modes are stored
+ */
+function createTemplateMd(outputPath: string, modesDir: string): void {
+  try {
+    // Create a template JSON object first
+    const templateJson = {
+      slug: "example-mode",
+      name: "Example Mode",
+      roleDefinition: "You are an example mode that demonstrates the structure of a custom mode.",
+      groups: [
+        "read",
+        ["edit", {
+          "fileRegex": "\\.md$",
+          "description": "Markdown files only"
+        }],
+        "browser",
+        "command"
+      ],
+      customInstructions: "This is where you would put your custom instructions for the mode.\n\nYou can include multiple paragraphs, code examples, and other markdown formatting.\n\n## Example Section\n\n- Bullet points\n- More bullet points\n\n```\nCode examples can be included here\n```",
+      apiConfiguration: {
+        "model": "gpt-4",
+        "temperature": 0.2
+      },
+      source: "custom"
+    };
+
+    // Convert the template JSON to markdown
+    const templateMd = `# [slug:${templateJson.slug}] ${templateJson.name}
+
+## [roleDefinition]
+${templateJson.roleDefinition}
+
+## [customInstructions]
+${templateJson.customInstructions}
+
+## [groups]
+\`\`\`json
+${JSON.stringify(templateJson.groups, null, 2)}
+\`\`\`
+
+## [apiConfiguration]
+\`\`\`json
+${JSON.stringify(templateJson.apiConfiguration, null, 2)}
+\`\`\`
+
+## [source]
+${templateJson.source}
+`;
+
+    // Ensure directory exists
+    const dir = dirname(outputPath);
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
+
+    // Write to file
+    writeFileSync(outputPath, templateMd);
+    console.log(`Created template markdown file at ${outputPath}`);
+  } catch (error) {
+    console.error(`Error creating template markdown file:`, error);
+  }
 }
 
 /**
@@ -232,18 +428,22 @@ Usage:
 
 Options:
   --modes-dir <path>  Specify the directory to look for mode files (default: "modes")
+  --template-json     Create a template JSON file (used with json2md or md2json commands)
+  --template-md       Create a template markdown file (used with json2md or md2json commands)
 
 Commands:
-  extract     Extract custom instructions from mode files to markdown
-  include     Include custom instructions from markdown files into mode files
+  json2md     Convert mode JSON files to markdown
+  md2json     Convert markdown files to mode JSON files
   version     Display the CLI version
   help        Display this help information
 
 Examples:
-  roo-modes extract                           Extract custom instructions from all mode files in the default directory
-  roo-modes --modes-dir custom-modes extract  Extract custom instructions from all mode files in the custom-modes directory
-  roo-modes include                           Include custom instructions from markdown files into mode files
-  roo-modes --modes-dir custom-modes include  Include custom instructions from markdown files into mode files in the custom-modes directory
+  roo-modes json2md                           Convert all mode JSON files to markdown in the default directory
+  roo-modes --modes-dir custom-modes json2md  Convert all mode JSON files to markdown in the custom-modes directory
+  roo-modes md2json                           Convert markdown files to mode JSON files in the default directory
+  roo-modes --modes-dir custom-modes md2json  Convert markdown files to mode JSON files in the custom-modes directory
+  roo-modes --template-json json2md           Create a template JSON file in the default directory
+  roo-modes --template-md md2json             Create a template markdown file in the default directory
   roo-modes version                           Display the CLI version
   roo-modes help                              Display help information
   `);
@@ -257,15 +457,32 @@ function main(): void {
   const options = parseOptions(args);
   const command = args[0] || 'help';
 
+  // Base directory for modes
+  const modesDir = join(__dirname, '..', options.modesDir);
+
   switch (command) {
-    case 'extract':
-      const modesDir = join(__dirname, '..', options.modesDir);
-      processModesDirectory(modesDir);
+    case 'json2md':
+      if (options.templateJson) {
+        const templatePath = join(modesDir, 'template.json');
+        createTemplateJson(templatePath, modesDir);
+      } else if (options.templateMd) {
+        const templatePath = join(modesDir, 'template.md');
+        createTemplateMd(templatePath, modesDir);
+      } else {
+        processModesDirectoryForJson2Md(modesDir);
+      }
       break;
 
-    case 'include':
-      const modesDirForInclude = join(__dirname, '..', options.modesDir);
-      processModesDirectoryForInclude(modesDirForInclude);
+    case 'md2json':
+      if (options.templateJson) {
+        const templatePath = join(modesDir, 'template.json');
+        createTemplateJson(templatePath, modesDir);
+      } else if (options.templateMd) {
+        const templatePath = join(modesDir, 'template.md');
+        createTemplateMd(templatePath, modesDir);
+      } else {
+        processModesDirectoryForMd2Json(modesDir);
+      }
       break;
 
     case 'version':
@@ -274,6 +491,17 @@ function main(): void {
 
     case 'help':
       showHelp();
+      break;
+
+    // For backward compatibility
+    case 'extract':
+      console.log('Note: The "extract" command is deprecated. Please use "json2md" instead.');
+      processModesDirectoryForJson2Md(modesDir);
+      break;
+
+    case 'include':
+      console.log('Note: The "include" command is deprecated. Please use "md2json" instead.');
+      processModesDirectoryForMd2Json(modesDir);
       break;
 
     default:

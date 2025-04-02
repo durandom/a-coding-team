@@ -7,6 +7,8 @@ A TypeScript CLI for managing Roo custom modes.
 - Written in TypeScript
 - Minimal dependencies
 - Reports CLI version
+- Convert between JSON mode files and markdown files
+- Generate template files for quick mode creation
 
 ## Installation
 
@@ -82,8 +84,10 @@ npm run dev -- [command]
 
 For example:
 ```bash
-npm run dev -- extract
-npm run dev -- --modes-dir custom-modes include
+npm run dev -- json2md
+npm run dev -- --modes-dir custom-modes md2json
+npm run dev -- --template-json json2md
+npm run dev -- --template-md md2json
 ```
 
 The `--` is necessary to pass arguments to the script rather than to npm.
@@ -111,6 +115,87 @@ The `--` is necessary to pass arguments to the script rather than to npm.
    ```
 
 This second method allows you to make changes to the source code and have them automatically compiled and available for testing.
+
+## Commands
+
+### json2md (formerly extract)
+
+Converts JSON mode files to markdown files with machine-readable tags.
+
+```bash
+roo-modes json2md
+roo-modes --modes-dir custom-modes json2md
+```
+
+### md2json (formerly include)
+
+Converts markdown files to JSON mode files.
+
+```bash
+roo-modes md2json
+roo-modes --modes-dir custom-modes md2json
+```
+
+### Template Generation
+
+Create template files to help you get started with custom modes:
+
+```bash
+# Create a template JSON file
+roo-modes --template-json json2md
+
+# Create a template markdown file
+roo-modes --template-md md2json
+```
+
+The template files include all possible fields and demonstrate the proper structure for both JSON and markdown formats.
+
+### Other Commands
+
+```bash
+# Display the CLI version
+roo-modes version
+
+# Display help information
+roo-modes help
+```
+
+## File Format
+
+The CLI uses a special markdown format with machine-readable tags to facilitate conversion between JSON and markdown:
+
+```markdown
+# [slug:example-mode] Example Mode
+
+## [roleDefinition]
+You are an example mode that demonstrates the structure of a custom mode.
+
+## [customInstructions]
+This is where you would put your custom instructions for the mode.
+
+## [groups]
+```json
+[
+  "read",
+  ["edit", { "fileRegex": "\\.md$", "description": "Markdown files only" }],
+  "browser",
+  "command"
+]
+```
+
+## [apiConfiguration]
+```json
+{
+  "model": "gpt-4",
+  "temperature": 0.2
+}
+```
+
+## [source]
+custom
+```
+
+This format ensures that all JSON fields are properly preserved when converting between formats.
 
 ## License
 
