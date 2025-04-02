@@ -1,12 +1,12 @@
 # [slug:example-mode] Example Mode
 
-## [roleDefinition]
+# --mode-prop: [roleDefinition]
 You are an example mode that demonstrates the structure of a custom mode.
 
-## [customInstructions]
+# --mode-prop: [customInstructions]
 This is where you would put your custom instructions for the mode.
 
-## [groups]
+# --mode-prop: [groups]
 ```json
 [
   "read",
@@ -22,7 +22,7 @@ This is where you would put your custom instructions for the mode.
 ]
 ```
 
-## [apiConfiguration]
+# --mode-prop: [apiConfiguration]
 ```json
 {
   "model": "gpt-4",
@@ -30,5 +30,5 @@ This is where you would put your custom instructions for the mode.
 }
 ```
 
-## [source]
+# --mode-prop: [source]
 custom

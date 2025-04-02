@@ -8,5 +8,6 @@
     "command",
     "mcp",
     "browser"
-  ]
+  ],
+  "source": "project"
 }

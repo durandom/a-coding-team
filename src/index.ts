@@ -70,55 +70,60 @@ function isValidModeFile(filePath: string): { valid: boolean; reason?: string } 
 function parseMarkdownToJson(markdownContent: string, existingJsonData: any): any {
   const jsonData = { ...existingJsonData };
 
-  // Split the content into sections by level 1 and level 2 headers
-  const sections = markdownContent.split(/^# |\n## /m);
-
-  // Process the first section (title with slug)
-  if (sections.length > 0) {
-    const titleMatch = sections[0].match(/\[slug:([^\]]+)\]\s+(.+?)(?:\n|$)/);
-    if (titleMatch) {
-      jsonData.slug = titleMatch[1].trim();
-      jsonData.name = titleMatch[2].trim();
-    }
+  // Extract the title and slug from the first line
+  const titleMatch = markdownContent.match(/^# \[slug:([^\]]+)\]\s+(.+?)(?:\n|$)/m);
+  if (titleMatch) {
+    jsonData.slug = titleMatch[1].trim();
+    jsonData.name = titleMatch[2].trim();
   }
 
-  // Process the remaining sections
-  for (let i = 1; i < sections.length; i++) {
-    const section = sections[i];
-    const sectionMatch = section.match(/\[([^\]]+)\]\s*\n([\s\S]+?)(?=\n## \[|$)/);
+  // Use the new machine-readable format to extract sections
+  // Look for patterns like "# --mode-prop: [propName]" followed by content
+  const sectionRegex = /# --mode-prop: \[([^\]]+)\]\s*\n([\s\S]+?)(?=\n# --mode-prop: \[|$)/g;
 
-    if (sectionMatch) {
-      const sectionName = sectionMatch[1].trim();
-      let sectionContent = sectionMatch[2].trim();
+  // Process sections in the new format
+  let match;
+  while ((match = sectionRegex.exec(markdownContent)) !== null) {
+    const sectionName = match[1].trim();
+    let sectionContent = match[2].trim();
 
-      // Handle different section types
-      switch (sectionName) {
-        case 'roleDefinition':
-          jsonData.roleDefinition = sectionContent;
-          break;
-        case 'customInstructions':
-          jsonData.customInstructions = sectionContent;
-          break;
-        case 'groups':
-        case 'apiConfiguration':
-          // Extract JSON content from code blocks
-          const jsonMatch = sectionContent.match(/```json\s*([\s\S]+?)\s*```/);
-          if (jsonMatch) {
-            try {
-              jsonData[sectionName] = JSON.parse(jsonMatch[1]);
-            } catch (error) {
-              console.error(`Error parsing JSON in ${sectionName} section:`, error);
-            }
-          }
-          break;
-        case 'source':
-          jsonData.source = sectionContent;
-          break;
-      }
-    }
+    processSectionContent(sectionName, sectionContent, jsonData);
   }
 
   return jsonData;
+}
+
+/**
+ * Process section content based on section name
+ * @param sectionName The name of the section
+ * @param sectionContent The content of the section
+ * @param jsonData The JSON data to update
+ */
+function processSectionContent(sectionName: string, sectionContent: string, jsonData: any): void {
+  // Handle different section types
+  switch (sectionName) {
+    case 'roleDefinition':
+      jsonData.roleDefinition = sectionContent;
+      break;
+    case 'customInstructions':
+      jsonData.customInstructions = sectionContent;
+      break;
+    case 'groups':
+    case 'apiConfiguration':
+      // Extract JSON content from code blocks
+      const jsonMatch = sectionContent.match(/```json\s*([\s\S]+?)\s*```/);
+      if (jsonMatch) {
+        try {
+          jsonData[sectionName] = JSON.parse(jsonMatch[1]);
+        } catch (error) {
+          console.error(`Error parsing JSON in ${sectionName} section:`, error);
+        }
+      }
+      break;
+    case 'source':
+      jsonData.source = sectionContent;
+      break;
+  }
 }
 
 /**
@@ -139,28 +144,28 @@ function convertJsonToMarkdown(filePath: string): void {
     const fileName = basename(filePath, '.json');
     const outputPath = join(dirname(filePath), `${fileName}.md`);
 
-    // Create markdown content with machine-readable tags
+    // Create markdown content with new machine-readable format
     let markdownContent = '';
 
     // Add slug
     markdownContent += `# [slug:${jsonData.slug}] ${jsonData.name}\n\n`;
 
     // Add role definition
-    markdownContent += `## [roleDefinition]\n${jsonData.roleDefinition}\n\n`;
+    markdownContent += `# --mode-prop: [roleDefinition]\n${jsonData.roleDefinition}\n\n`;
 
     // Add custom instructions
-    markdownContent += `## [customInstructions]\n${jsonData.customInstructions}\n\n`;
+    markdownContent += `# --mode-prop: [customInstructions]\n${jsonData.customInstructions}\n\n`;
 
     // Add groups
-    markdownContent += `## [groups]\n\`\`\`json\n${JSON.stringify(jsonData.groups, null, 2)}\n\`\`\`\n\n`;
+    markdownContent += `# --mode-prop: [groups]\n\`\`\`json\n${JSON.stringify(jsonData.groups, null, 2)}\n\`\`\`\n\n`;
 
     // Add apiConfiguration if it exists
     if (jsonData.apiConfiguration) {
-      markdownContent += `## [apiConfiguration]\n\`\`\`json\n${JSON.stringify(jsonData.apiConfiguration, null, 2)}\n\`\`\`\n\n`;
+      markdownContent += `# --mode-prop: [apiConfiguration]\n\`\`\`json\n${JSON.stringify(jsonData.apiConfiguration, null, 2)}\n\`\`\`\n\n`;
     }
 
     // Add source (default to "project" if not provided)
-    markdownContent += `## [source]\n${jsonData.source || 'project'}\n`;
+    markdownContent += `# --mode-prop: [source]\n${jsonData.source || 'project'}\n`;
 
     // Ensure directory exists
     const dir = dirname(outputPath);
