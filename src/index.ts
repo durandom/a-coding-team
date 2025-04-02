@@ -28,22 +28,36 @@ function getVersion(): string {
  * @param filePath Path to the JSON file
  * @returns boolean indicating if the file is a valid RU custom mode file
  */
-function isValidModeFile(filePath: string): boolean {
+function isValidModeFile(filePath: string): { valid: boolean; reason?: string } {
   try {
     const fileContent = readFileSync(filePath, 'utf8');
     const jsonData = JSON.parse(fileContent);
 
     // Check for required fields in the mode file
-    return (
-      typeof jsonData.slug === 'string' &&
-      typeof jsonData.name === 'string' &&
-      typeof jsonData.roleDefinition === 'string' &&
-      Array.isArray(jsonData.groups) &&
-      typeof jsonData.customInstructions === 'string' &&
-      jsonData.source === 'custom'
-    );
+    if (typeof jsonData.slug !== 'string') {
+      return { valid: false, reason: "Missing or invalid 'slug' field (must be a string)" };
+    }
+    if (typeof jsonData.name !== 'string') {
+      return { valid: false, reason: "Missing or invalid 'name' field (must be a string)" };
+    }
+    if (typeof jsonData.roleDefinition !== 'string') {
+      return { valid: false, reason: "Missing or invalid 'roleDefinition' field (must be a string)" };
+    }
+    if (!Array.isArray(jsonData.groups)) {
+      return { valid: false, reason: "Missing or invalid 'groups' field (must be an array)" };
+    }
+    if (typeof jsonData.customInstructions !== 'string') {
+      return { valid: false, reason: "Missing or invalid 'customInstructions' field (must be a string)" };
+    }
+
+    // Make source field optional with default value of "project"
+    if (jsonData.source !== undefined && typeof jsonData.source !== 'string') {
+      return { valid: false, reason: "Invalid 'source' field (must be a string if provided)" };
+    }
+
+    return { valid: true };
   } catch (error) {
-    return false;
+    return { valid: false, reason: `Error parsing file: ${error}` };
   }
 }
 
@@ -145,8 +159,8 @@ function convertJsonToMarkdown(filePath: string): void {
       markdownContent += `## [apiConfiguration]\n\`\`\`json\n${JSON.stringify(jsonData.apiConfiguration, null, 2)}\n\`\`\`\n\n`;
     }
 
-    // Add source
-    markdownContent += `## [source]\n${jsonData.source || 'custom'}\n`;
+    // Add source (default to "project" if not provided)
+    markdownContent += `## [source]\n${jsonData.source || 'project'}\n`;
 
     // Ensure directory exists
     const dir = dirname(outputPath);
@@ -225,11 +239,12 @@ function processModesDirectoryForJson2Md(modesDir: string): void {
 
     for (const file of jsonFiles) {
       const filePath = join(modesDir, file);
-      if (isValidModeFile(filePath)) {
+      const validation = isValidModeFile(filePath);
+      if (validation.valid) {
         convertJsonToMarkdown(filePath);
         validFilesCount++;
       } else {
-        console.log(`Skipping ${file} - not a valid RU custom mode file`);
+        console.log(`Skipping ${file} - not a valid RU custom mode file: ${validation.reason}`);
       }
     }
 
@@ -262,11 +277,12 @@ function processModesDirectoryForMd2Json(modesDir: string): void {
 
     for (const file of jsonFiles) {
       const filePath = join(modesDir, file);
-      if (isValidModeFile(filePath)) {
+      const validation = isValidModeFile(filePath);
+      if (validation.valid) {
         convertMarkdownToJson(filePath);
         updatedFilesCount++;
       } else {
-        console.log(`Skipping ${file} - not a valid RU custom mode file`);
+        console.log(`Skipping ${file} - not a valid RU custom mode file: ${validation.reason}`);
       }
     }
 

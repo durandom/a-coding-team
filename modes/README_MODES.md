@@ -58,8 +58,8 @@ Custom modes are defined in JSON files with the following structure:
 - Example: `{"model": "gpt-4", "temperature": 0.2}`
 
 ### `source`
-- Indicates the source of the mode (e.g., "custom")
-- Example: `"custom"`
+- Optional, indicates the source of the mode (e.g., "project")
+- Example: `"project"`
 
 ## Examples
 

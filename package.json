@@ -7,9 +7,10 @@
     "roo-modes": "./bin/roo-modes.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run create-bin",
     "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "create-bin": "mkdir -p bin && echo '#!/usr/bin/env node\nrequire(\"../dist/index.js\");' > bin/roo-modes.js && chmod +x bin/roo-modes.js"
   },
   "engines": {
     "node": ">=14"
