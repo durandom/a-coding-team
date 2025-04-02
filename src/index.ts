@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * A minimalist TypeScript CLI that reports its version and supports commands
+ * roo-modes: A TypeScript CLI for managing Roo custom modes
  */
 
 // Import required modules
@@ -225,10 +225,10 @@ function parseOptions(args: string[]): { modesDir: string } {
  */
 function showHelp(): void {
   console.log(`
-minimal-ts-cli version: ${getVersion()}
+roo-modes version: ${getVersion()}
 
 Usage:
-  minimal-cli [options] [command]
+  roo-modes [options] [command]
 
 Options:
   --modes-dir <path>  Specify the directory to look for mode files (default: "modes")
@@ -240,12 +240,12 @@ Commands:
   help        Display this help information
 
 Examples:
-  minimal-cli extract                           Extract custom instructions from all mode files in the default directory
-  minimal-cli --modes-dir custom-modes extract  Extract custom instructions from all mode files in the custom-modes directory
-  minimal-cli include                           Include custom instructions from markdown files into mode files
-  minimal-cli --modes-dir custom-modes include  Include custom instructions from markdown files into mode files in the custom-modes directory
-  minimal-cli version                           Display the CLI version
-  minimal-cli help                              Display help information
+  roo-modes extract                           Extract custom instructions from all mode files in the default directory
+  roo-modes --modes-dir custom-modes extract  Extract custom instructions from all mode files in the custom-modes directory
+  roo-modes include                           Include custom instructions from markdown files into mode files
+  roo-modes --modes-dir custom-modes include  Include custom instructions from markdown files into mode files in the custom-modes directory
+  roo-modes version                           Display the CLI version
+  roo-modes help                              Display help information
   `);
 }
 
@@ -269,7 +269,7 @@ function main(): void {
       break;
 
     case 'version':
-      console.log(`minimal-ts-cli version: ${getVersion()}`);
+      console.log(`roo-modes version: ${getVersion()}`);
       break;
 
     case 'help':

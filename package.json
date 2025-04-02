@@ -1,10 +1,10 @@
 {
-  "name": "minimal-ts-cli",
+  "name": "roo-modes",
   "version": "0.1.0",
-  "description": "A minimalist TypeScript CLI",
+  "description": "A TypeScript CLI for managing Roo custom modes",
   "main": "dist/index.js",
   "bin": {
-    "minimal-cli": "./bin/cli.js"
+    "roo-modes": "./bin/roo-modes.js"
   },
   "scripts": {
     "build": "tsc",

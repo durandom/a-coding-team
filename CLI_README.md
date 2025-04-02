@@ -1,6 +1,6 @@
-# Minimal TypeScript CLI
+# roo-modes CLI
 
-A minimalist TypeScript CLI that reports its version.
+A TypeScript CLI for managing Roo custom modes.
 
 ## Features
 
@@ -27,13 +27,13 @@ A minimalist TypeScript CLI that reports its version.
 Run the CLI directly:
 
 ```bash
-node dist/index.js
+node dist/index.js [command]
 ```
 
 Or use the executable script:
 
 ```bash
-./bin/cli.js
+./bin/roo-modes.js [command]
 ```
 
 ### Global Installation
@@ -47,7 +47,7 @@ npm install -g .
 After global installation, you can run it from anywhere:
 
 ```bash
-minimal-cli
+roo-modes
 ```
 
 ## Distribution Options
@@ -57,7 +57,7 @@ minimal-cli
 You can run the CLI without installing it using npx:
 
 ```bash
-npx minimal-ts-cli
+npx roo-modes
 ```
 
 ### Publishing to npm
@@ -68,18 +68,49 @@ To make the CLI available to others, publish it to npm:
 npm publish
 ```
 
-## Project Structure
+## Development Mode
 
+There are two ways to run the CLI in development mode:
+
+### Method 1: Direct Execution with ts-node
+
+Run the CLI directly without compiling using ts-node:
+
+```bash
+npm run dev -- [command]
 ```
-minimal-ts-cli/
-├── bin/           # Executable scripts
-│   └── cli.js     # CLI entry point wrapper
-├── src/           # TypeScript source files
-│   └── index.ts   # Main CLI implementation
-├── dist/          # Compiled JavaScript (generated)
-├── package.json   # Dependencies and scripts
-└── tsconfig.json  # TypeScript configuration
+
+For example:
+```bash
+npm run dev -- extract
+npm run dev -- --modes-dir custom-modes include
 ```
+
+The `--` is necessary to pass arguments to the script rather than to npm.
+
+### Method 2: Watch and Compile
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Run the TypeScript compiler in watch mode:
+   ```bash
+   npm run watch
+   ```
+
+3. In a separate terminal, run the CLI:
+   ```bash
+   node dist/index.js [command]
+   ```
+
+   Or use the executable script:
+   ```bash
+   ./bin/roo-modes.js [command]
+   ```
+
+This second method allows you to make changes to the source code and have them automatically compiled and available for testing.
 
 ## License
 
