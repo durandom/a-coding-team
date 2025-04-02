@@ -201,6 +201,26 @@ function processModesDirectoryForInclude(modesDir: string): void {
 }
 
 /**
+ * Parse command line arguments to extract options
+ * @param args Command line arguments
+ * @returns Object containing parsed options
+ */
+function parseOptions(args: string[]): { modesDir: string } {
+  let modesDir = 'modes'; // Default value
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--modes-dir' && i + 1 < args.length) {
+      modesDir = args[i + 1];
+      // Remove the option and its value from args
+      args.splice(i, 2);
+      i--; // Adjust index after removal
+    }
+  }
+
+  return { modesDir };
+}
+
+/**
  * Display help information
  */
 function showHelp(): void {
@@ -208,7 +228,10 @@ function showHelp(): void {
 minimal-ts-cli version: ${getVersion()}
 
 Usage:
-  minimal-cli [command]
+  minimal-cli [options] [command]
+
+Options:
+  --modes-dir <path>  Specify the directory to look for mode files (default: "modes")
 
 Commands:
   extract     Extract custom instructions from mode files to markdown
@@ -217,10 +240,12 @@ Commands:
   help        Display this help information
 
 Examples:
-  minimal-cli extract     Extract custom instructions from all mode files
-  minimal-cli include     Include custom instructions from markdown files into mode files
-  minimal-cli version     Display the CLI version
-  minimal-cli help        Display help information
+  minimal-cli extract                           Extract custom instructions from all mode files in the default directory
+  minimal-cli --modes-dir custom-modes extract  Extract custom instructions from all mode files in the custom-modes directory
+  minimal-cli include                           Include custom instructions from markdown files into mode files
+  minimal-cli --modes-dir custom-modes include  Include custom instructions from markdown files into mode files in the custom-modes directory
+  minimal-cli version                           Display the CLI version
+  minimal-cli help                              Display help information
   `);
 }
 
@@ -229,16 +254,17 @@ Examples:
  */
 function main(): void {
   const args = process.argv.slice(2);
+  const options = parseOptions(args);
   const command = args[0] || 'help';
 
   switch (command) {
     case 'extract':
-      const modesDir = join(__dirname, '..', 'modes');
+      const modesDir = join(__dirname, '..', options.modesDir);
       processModesDirectory(modesDir);
       break;
 
     case 'include':
-      const modesDirForInclude = join(__dirname, '..', 'modes');
+      const modesDirForInclude = join(__dirname, '..', options.modesDir);
       processModesDirectoryForInclude(modesDirForInclude);
       break;
 
