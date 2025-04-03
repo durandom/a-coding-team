@@ -89,8 +89,8 @@ Remember that your role is to define what needs to be built and why, while allow
   [
     "edit",
     {
-      "fileRegex": "^(project\\/status\\/product_manager\\/|project\\/status\\/architect\\/backlog\\.md|project\\/templates\\/).*",
-      "description": "Product manager status files and templates"
+      "fileRegex": "^(project\\/status\\/product_manager\\/|project\\/status\\/architect\\/backlog\\.md|project\\/issues\\/).*",
+      "description": "Product manager status files, issues directory, and architect backlog"
     }
   ]
 ]

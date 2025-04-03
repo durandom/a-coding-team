@@ -6,7 +6,7 @@ This document outlines the structured tasks for each role in implementing a simp
 
 ### Prompt for Product Manager:
 ```
-We need a simple shell script for new developers to verify their development environment is set up correctly. I want to create a "Hello World" script that they can run as a first test.
+We need a simple shell script to print "Hello World".
 
 The script should just print "Hello World" to the console when executed and exit successfully. It should be straightforward to run on Linux, macOS, and potentially Windows environments that support shell scripts.
 ```
