@@ -2,7 +2,7 @@
 
 # Create main directories
 mkdir -p project/status/{product_manager,architect,team_lead,engineer,qa}
-mkdir -p project/issues/{feature_requests,bugs,improvements}
+# mkdir -p project/issues/{feature_requests,bugs,improvements}
 mkdir -p project/templates
 
 # Get current date and time
