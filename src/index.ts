@@ -287,6 +287,11 @@ function convertMarkdownToJson(markdownPath: string): void {
     // Parse the markdown content to extract JSON fields
     jsonData = parseMarkdownToJson(markdownContent, jsonData);
 
+    // add the source field if not already present
+    if (!jsonData.source) {
+      jsonData.source = 'project';
+    }
+
     // Write the updated JSON back to the file
     writeFileSync(jsonFilePath, JSON.stringify(jsonData, null, 2));
     console.log(`Converted markdown to JSON: ${jsonFilePath} (${fileName}.json)`);
@@ -429,7 +434,7 @@ function getTemplateJson(): any {
       "model": "gpt-4",
       "temperature": 0.2
     },
-    source: "custom"
+    source: "project"
   };
 }
 
@@ -501,6 +506,7 @@ Options:
 Commands:
   json2md     Convert mode JSON files to markdown
   md2json     Convert markdown files to mode JSON files
+  bundle      Bundle all valid mode JSON files into a single .roomodes file
   version     Display the CLI version
   help        Display this help information
 
@@ -509,11 +515,66 @@ Examples:
   roo-modes --modes-dir custom-modes json2md  Convert all mode JSON files to markdown in the custom-modes directory
   roo-modes md2json                           Convert all valid markdown files to mode JSON files in the default directory
   roo-modes --modes-dir custom-modes md2json  Convert all valid markdown files to mode JSON files in the custom-modes directory
+  roo-modes bundle                            Bundle all valid mode JSON files into a .roomodes file in the default directory
+  roo-modes --modes-dir custom-modes bundle   Bundle all valid mode JSON files into a .roomodes file in the custom-modes directory
   roo-modes --template-json json2md           Create a template JSON file in the default directory
   roo-modes --template-md md2json             Create a template markdown file in the default directory
   roo-modes version                           Display the CLI version
   roo-modes help                              Display help information
   `);
+}
+
+/**
+ * Bundle all valid mode JSON files into a single .roomodes file
+ * @param modesDir Path to the modes directory
+ */
+function bundleModesFiles(modesDir: string): void {
+  try {
+    if (!existsSync(modesDir)) {
+      console.error(`Modes directory not found: ${modesDir}`);
+      return;
+    }
+
+    const files = readdirSync(modesDir);
+    const jsonFiles = files.filter(file => file.endsWith('.json'));
+
+    if (jsonFiles.length === 0) {
+      console.log(`No JSON files found in ${modesDir}`);
+      return;
+    }
+
+    let validFilesCount = 0;
+    const customModes: any[] = [];
+
+    for (const file of jsonFiles) {
+      const filePath = join(modesDir, file);
+      const validation = isValidModeFile(filePath);
+
+      if (validation.valid) {
+        try {
+          const fileContent = readFileSync(filePath, 'utf8');
+          const jsonData = JSON.parse(fileContent);
+          customModes.push(jsonData);
+          validFilesCount++;
+        } catch (error) {
+          console.error(`Error reading or parsing ${file}:`, error);
+        }
+      } else {
+        console.log(`Skipping ${file} - not a valid RU custom mode file: ${validation.reason}`);
+      }
+    }
+
+    // Create the .roomodes file
+    const roomodesPath = join(modesDir, '.roomodes');
+    const roomodesContent = {
+      customModes: customModes
+    };
+
+    writeFileSync(roomodesPath, JSON.stringify(roomodesContent, null, 2));
+    console.log(`Created .roomodes file with ${validFilesCount} valid mode files out of ${jsonFiles.length} JSON files`);
+  } catch (error) {
+    console.error(`Error bundling modes files:`, error);
+  }
 }
 
 /**
@@ -550,6 +611,10 @@ function main(): void {
       } else {
         processModesDirectoryForMd2Json(modesDir);
       }
+      break;
+
+    case 'bundle':
+      bundleModesFiles(modesDir);
       break;
 
     case 'version':
