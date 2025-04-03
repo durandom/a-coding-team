@@ -1,7 +1,7 @@
-# Feature Request: [FR-XXX_feature_name]
+# Feature: [F-XXX_feature_name]
 
 ## Overview
-[Brief description of the requested feature]
+[Brief description of the feature]
 
 ## Business Value
 [Why this feature is important for the business or users]

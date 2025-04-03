@@ -2,7 +2,7 @@
 
 # Create main directories
 mkdir -p project/status/{product_manager,architect,team_lead,engineer,qa}
-mkdir -p project/issues/{feature_requests,bugs,improvements}
+mkdir -p project/issues/{features,bugs,improvements}
 mkdir -p project/templates
 
 # Define template variables for status files
@@ -32,9 +32,9 @@ COMPLETED_HEADER_TEMPLATE="# %s Completed Assignments
 
 # Create status files for each role with template headers only
 # Product Manager files
-printf "$ACTIVE_HEADER_TEMPLATE" "Product Manager" "feature requests" > project/status/product_manager/active_assignments.md
-printf "$BACKLOG_HEADER_TEMPLATE" "Product Manager" "feature requests" "feature requests" "feature requests" > project/status/product_manager/backlog.md
-printf "$COMPLETED_HEADER_TEMPLATE" "Product Manager" "feature requests" > project/status/product_manager/completed.md
+printf "$ACTIVE_HEADER_TEMPLATE" "Product Manager" "features" > project/status/product_manager/active_assignments.md
+printf "$BACKLOG_HEADER_TEMPLATE" "Product Manager" "features" "features" "features" > project/status/product_manager/backlog.md
+printf "$COMPLETED_HEADER_TEMPLATE" "Product Manager" "features" > project/status/product_manager/completed.md
 
 # Architect files
 printf "$ACTIVE_HEADER_TEMPLATE" "Architect" "architecture plans" > project/status/architect/active_assignments.md
@@ -57,11 +57,11 @@ printf "$BACKLOG_HEADER_TEMPLATE" "QA" "testing tasks" "testing tasks" "testing 
 printf "$COMPLETED_HEADER_TEMPLATE" "QA" "bug reports and test cases" > project/status/qa/completed.md
 
 # Create basic templates
-cat > project/templates/feature_request_template.md << 'EOL'
-# Feature Request: [FR-XXX_feature_name]
+cat > project/templates/feature_template.md << 'EOL'
+# Feature: [F-XXX_feature_name]
 
 ## Overview
-[Brief description of the requested feature]
+[Brief description of the feature]
 
 ## Business Value
 [Why this feature is important for the business or users]
@@ -84,8 +84,8 @@ EOL
 cat > project/templates/epic_template.md << 'EOL'
 # Epic: [EP-XXX_epic_name]
 
-## Parent Feature Request
-[FR-XXX_feature_name]
+## Parent Feature
+[F-XXX_feature_name]
 
 ## Overview
 [Brief description of this epic and its scope]
@@ -225,10 +225,10 @@ This repository implements an **AI-driven development workflow** using structure
 ## Issues Directory Structure
 The `/issues/` directory serves as our file-based ticketing system with three main categories:
 
-### Feature Requests (`/issues/feature_requests/`)
-- Each feature request gets its own directory with a unique ID (e.g., `FR-001_user_authentication/`)
-- Feature request directories contain:
-  - `feature_request.md` - Initial feature request by Product Manager
+### Features (`/issues/features/`)
+- Each feature gets its own directory with a unique ID (e.g., `F-001_user_authentication/`)
+- Feature directories contain:
+  - `feature.md` - Initial feature definition by Product Manager
   - `architecture_plan.md` - Software Architect's implementation plan
   - `attachments/` folder - For mockups, diagrams, or additional documentation
   - `epics/` folder - Contains subdirectories for each epic within the feature
@@ -250,7 +250,7 @@ The `/issues/` directory serves as our file-based ticketing system with three ma
 
 ### Improvements (`/issues/improvements/`)
 - Each improvement request gets its own directory with a unique ID (e.g., `IMP-001_performance_optimization/`)
-- Similar structure to feature requests but focused on enhancements to existing features
+- Similar structure to features but focused on enhancements to existing features
 
 ## Project Structure
 This project follows a structured file-based workflow as described in detail in our main documentation.
@@ -265,9 +265,20 @@ This project follows a structured file-based workflow as described in detail in 
 For detailed workflow information, refer to our main documentation.
 EOL
 
-# Add .keep files to all empty directories to ensure they're tracked in version control
-touch project/issues/feature_requests/.keep
+# Create .keep files for all empty directories
+# Status directories
+touch project/status/product_manager/.keep
+touch project/status/architect/.keep
+touch project/status/team_lead/.keep
+touch project/status/engineer/.keep
+touch project/status/qa/.keep
+
+# Issues directories
+touch project/issues/features/.keep
 touch project/issues/bugs/.keep
 touch project/issues/improvements/.keep
+
+# Templates directory
+touch project/templates/.keep
 
 echo "Project directory structure initialized successfully!"

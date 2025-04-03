@@ -1,7 +1,7 @@
 # Epic: [EP-XXX_epic_name]
 
-## Parent Feature Request
-[FR-XXX_feature_name]
+## Parent Feature
+[F-XXX_feature_name]
 
 ## Overview
 [Brief description of this epic and its scope]
