@@ -2,145 +2,57 @@
 
 # Create main directories
 mkdir -p project/status/{product_manager,architect,team_lead,engineer,qa}
-# mkdir -p project/issues/{feature_requests,bugs,improvements}
+mkdir -p project/issues/{feature_requests,bugs,improvements}
 mkdir -p project/templates
 
-# Get current date and time
-CURRENT_DATE=$(date +"%Y-%m-%d")
-CURRENT_DATETIME=$(date +"%Y-%m-%d %H:%M")
-
 # Define template variables for status files
-ACTIVE_HEADER_TEMPLATE="# %s Active Assignments - Last Modified: $CURRENT_DATETIME
+ACTIVE_HEADER_TEMPLATE="# %s Active Assignments
 
 ## How to Use This File
 - This file tracks all %s you are currently working on
-- Update the \"Last Modified\" timestamp in the header whenever you make changes
-- Update task status and \"Last Updated\" timestamp for each task when progress is made
+- Update the status and notes for each task when progress is made
 - Move completed tasks to \"completed.md\" and pull new tasks from \"backlog.md\" as needed
 "
 
-BACKLOG_HEADER_TEMPLATE="# %s Backlog - Last Modified: $CURRENT_DATETIME
+BACKLOG_HEADER_TEMPLATE="# %s Backlog
 
 ## How to Use This File
 - This file contains upcoming %s that have not been started yet
 - Add new %s with a priority level and brief description
 - Move %s to \"active_assignments.md\" when you begin work on them
-- Update the \"Last Modified\" timestamp whenever you make changes
 "
 
-COMPLETED_HEADER_TEMPLATE="# %s Completed Assignments - Last Modified: $CURRENT_DATETIME
+COMPLETED_HEADER_TEMPLATE="# %s Completed Assignments
 
 ## How to Use This File
 - This file archives %s that have been fully completed and verified
 - Move items here from \"active_assignments.md\" when they are complete
-- Each entry should include the completion date and handoff notes
-- Update the \"Last Modified\" timestamp whenever you make changes
+- Each entry should include handoff notes and completion status
 "
 
-# Create status files for each role with custom content
+# Create status files for each role with template headers only
 # Product Manager files
 printf "$ACTIVE_HEADER_TEMPLATE" "Product Manager" "feature requests" > project/status/product_manager/active_assignments.md
-cat >> project/status/product_manager/active_assignments.md << EOL
-
-## Current Tasks
-1. **FR-001_user_authentication** (High Priority)
-   - Status: In progress (50% complete)
-   - Description: Implementing user authentication system
-   - Notes: Gathering requirements for social login integration
-   - Dependencies: None
-   - Last Updated: $CURRENT_DATETIME
-
-## Blocked Tasks
-1. **FR-002_payment_gateway** (Medium Priority)
-   - Blocker: Waiting for finance team approval on payment processor selection
-   - Contact: finance@example.com
-   - Last Updated: $CURRENT_DATETIME
-EOL
-
 printf "$BACKLOG_HEADER_TEMPLATE" "Product Manager" "feature requests" "feature requests" "feature requests" > project/status/product_manager/backlog.md
-cat >> project/status/product_manager/backlog.md << EOL
-
-## Upcoming Feature Requests
-1. **FR-003_user_profile** (Medium Priority)
-   - Description: Allow users to customize their profile and settings
-   - Target start date: Q3 2025
-   - Added: $CURRENT_DATETIME
-
-2. **FR-004_notification_system** (Low Priority)
-   - Description: Implement in-app and email notifications for user activities
-   - Target start date: Q4 2025
-   - Added: $CURRENT_DATETIME
-EOL
-
 printf "$COMPLETED_HEADER_TEMPLATE" "Product Manager" "feature requests" > project/status/product_manager/completed.md
-cat >> project/status/product_manager/completed.md << EOL
-
-## Completed Feature Requests
-1. **FR-000_project_setup** (High Priority)
-   - Description: Initial project setup and workflow definition
-   - Completed on: $CURRENT_DATE
-   - Handed off to: Software Architect
-   - Notes: Basic project structure established
-EOL
 
 # Architect files
 printf "$ACTIVE_HEADER_TEMPLATE" "Architect" "architecture plans" > project/status/architect/active_assignments.md
-cat >> project/status/architect/active_assignments.md << EOL
-
-## Current Tasks
-1. **FR-001_user_authentication** (High Priority)
-   - Status: In progress (25% complete)
-   - Description: Designing authentication system architecture
-   - Notes: Evaluating OAuth providers and security requirements
-   - Dependencies: None
-   - Last Updated: $CURRENT_DATETIME
-
-## Blocked Tasks
-(No blocked tasks currently)
-EOL
-
 printf "$BACKLOG_HEADER_TEMPLATE" "Architect" "architecture plans" "architecture plans" "architecture plans" > project/status/architect/backlog.md
 printf "$COMPLETED_HEADER_TEMPLATE" "Architect" "architecture plans" > project/status/architect/completed.md
 
 # Team Lead files
 printf "$ACTIVE_HEADER_TEMPLATE" "Team Lead" "epics" > project/status/team_lead/active_assignments.md
-cat >> project/status/team_lead/active_assignments.md << EOL
-
-## Current Epics
-(No active epics currently - waiting for architecture plans)
-
-## Blocked Epics
-(No blocked epics currently)
-EOL
-
 printf "$BACKLOG_HEADER_TEMPLATE" "Team Lead" "epics" "epics" "epics" > project/status/team_lead/backlog.md
 printf "$COMPLETED_HEADER_TEMPLATE" "Team Lead" "epics" > project/status/team_lead/completed.md
 
 # Engineer files
 printf "$ACTIVE_HEADER_TEMPLATE" "Engineer" "tasks" > project/status/engineer/active_assignments.md
-cat >> project/status/engineer/active_assignments.md << EOL
-
-## Current Tasks
-(No active tasks currently - waiting for task breakdown)
-
-## Blocked Tasks
-(No blocked tasks currently)
-EOL
-
 printf "$BACKLOG_HEADER_TEMPLATE" "Engineer" "tasks" "tasks" "tasks" > project/status/engineer/backlog.md
 printf "$COMPLETED_HEADER_TEMPLATE" "Engineer" "tasks" > project/status/engineer/completed.md
 
 # QA files
 printf "$ACTIVE_HEADER_TEMPLATE" "QA" "testing tasks" > project/status/qa/active_assignments.md
-cat >> project/status/qa/active_assignments.md << EOL
-
-## Current Tasks
-(No active tasks currently - waiting for implementation)
-
-## Blocked Tasks
-(No blocked tasks currently)
-EOL
-
 printf "$BACKLOG_HEADER_TEMPLATE" "QA" "testing tasks" "testing tasks" "testing tasks" > project/status/qa/backlog.md
 printf "$COMPLETED_HEADER_TEMPLATE" "QA" "bug reports and test cases" > project/status/qa/completed.md
 
@@ -310,6 +222,36 @@ This repository implements an **AI-driven development workflow** using structure
 
 3. Follow the instructions in the workflow documentation to complete your tasks.
 
+## Issues Directory Structure
+The `/issues/` directory serves as our file-based ticketing system with three main categories:
+
+### Feature Requests (`/issues/feature_requests/`)
+- Each feature request gets its own directory with a unique ID (e.g., `FR-001_user_authentication/`)
+- Feature request directories contain:
+  - `feature_request.md` - Initial feature request by Product Manager
+  - `architecture_plan.md` - Software Architect's implementation plan
+  - `attachments/` folder - For mockups, diagrams, or additional documentation
+  - `epics/` folder - Contains subdirectories for each epic within the feature
+    - Epic subdirectories (e.g., `EP-001_login_system/`) contain:
+      - `epic_details.md` - Epic description and requirements
+      - `tasks/` folder - Individual tasks broken down by Team Lead
+        - Task directories (e.g., `T-001_login_ui/`) contain:
+          - `task_details.md` - Task description and requirements
+          - `implementation_notes.md` - Developer's notes during implementation
+          - `completion_summary.md` - Summary after task completion
+
+### Bugs (`/issues/bugs/`)
+- Each bug report gets its own directory with a unique ID (e.g., `BUG-001_login_timeout/`)
+- Bug directories contain:
+  - `bug_report.md` - Initial bug report by QA Engineer
+  - `investigation_notes.md` - Developer's investigation notes
+  - `fix_details.md` - Documentation of the bug fix
+  - `attachments/` folder - For screenshots, logs, or other evidence
+
+### Improvements (`/issues/improvements/`)
+- Each improvement request gets its own directory with a unique ID (e.g., `IMP-001_performance_optimization/`)
+- Similar structure to feature requests but focused on enhancements to existing features
+
 ## Project Structure
 This project follows a structured file-based workflow as described in detail in our main documentation.
 
@@ -323,4 +265,9 @@ This project follows a structured file-based workflow as described in detail in 
 For detailed workflow information, refer to our main documentation.
 EOL
 
-echo "Project directory structure initialized successfully with example content!"
+# Add .keep files to all empty directories to ensure they're tracked in version control
+touch project/issues/feature_requests/.keep
+touch project/issues/bugs/.keep
+touch project/issues/improvements/.keep
+
+echo "Project directory structure initialized successfully!"

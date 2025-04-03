@@ -17,6 +17,36 @@ This repository implements an **AI-driven development workflow** using structure
 
 3. Follow the instructions in the workflow documentation to complete your tasks.
 
+## Issues Directory Structure
+The `/issues/` directory serves as our file-based ticketing system with three main categories:
+
+### Feature Requests (`/issues/feature_requests/`)
+- Each feature request gets its own directory with a unique ID (e.g., `FR-001_user_authentication/`)
+- Feature request directories contain:
+  - `feature_request.md` - Initial feature request by Product Manager
+  - `architecture_plan.md` - Software Architect's implementation plan
+  - `attachments/` folder - For mockups, diagrams, or additional documentation
+  - `epics/` folder - Contains subdirectories for each epic within the feature
+    - Epic subdirectories (e.g., `EP-001_login_system/`) contain:
+      - `epic_details.md` - Epic description and requirements
+      - `tasks/` folder - Individual tasks broken down by Team Lead
+        - Task directories (e.g., `T-001_login_ui/`) contain:
+          - `task_details.md` - Task description and requirements
+          - `implementation_notes.md` - Developer's notes during implementation
+          - `completion_summary.md` - Summary after task completion
+
+### Bugs (`/issues/bugs/`)
+- Each bug report gets its own directory with a unique ID (e.g., `BUG-001_login_timeout/`)
+- Bug directories contain:
+  - `bug_report.md` - Initial bug report by QA Engineer
+  - `investigation_notes.md` - Developer's investigation notes
+  - `fix_details.md` - Documentation of the bug fix
+  - `attachments/` folder - For screenshots, logs, or other evidence
+
+### Improvements (`/issues/improvements/`)
+- Each improvement request gets its own directory with a unique ID (e.g., `IMP-001_performance_optimization/`)
+- Similar structure to feature requests but focused on enhancements to existing features
+
 ## Project Structure
 This project follows a structured file-based workflow as described in detail in our main documentation.
 
