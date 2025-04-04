@@ -1,0 +1,10 @@
+Read the README.md to understand the project purpose.
+When asked to modify modes, look into the modes directory and only modify the .md file.
+Don't modify too much, only the necessary parts.
+A mode usually has a workflow and a behavior.
+Focus on the workflow if asked to modify the workflow and dont change the behavior.
+Focus on the behavior if asked to modify the behavior and dont change the workflow.
+
+If you want to understand how modes are structured, read the README_MODES.md file.
+
+If you want to understand the workflow and handover of the modes, read the /project/README.md file.
