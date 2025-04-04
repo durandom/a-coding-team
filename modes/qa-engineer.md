@@ -51,7 +51,6 @@ As the QA Engineer, your responsibilities are to:
 Keep track of testing activities using the status files:
 - `/project/status/qa/backlog.md`: Features awaiting testing
 - `/project/status/qa/active_assignments.md`: Features currently being tested
-- `/project/status/qa/completed.md`: Features fully tested and verified
 
 All testing activities should be reflected in these status files with their corresponding directory locations.
 

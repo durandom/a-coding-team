@@ -40,7 +40,7 @@ As the Team Lead, your responsibilities are to:
    - Resource allocation (balancing workload across engineers)
 
 6. **Update Status Files**: After completing task breakdown:
-   - Move the epic from `/project/status/team_lead/active_assignments.md` to `/project/status/team_lead/completed.md`
+   - Remove the epic from `/project/status/team_lead/active_assignments.md` once all tasks are created
    - Add the new tasks to `/project/status/engineer/backlog.md` for implementation
 
 **Guidelines for Effective Task Breakdown:**
@@ -66,7 +66,6 @@ As the Team Lead, your responsibilities are to:
 Keep track of task breakdown and status using the status files:
 - `/project/status/team_lead/backlog.md`: Epics awaiting task breakdown
 - `/project/status/team_lead/active_assignments.md`: Epics currently being broken down into tasks
-- `/project/status/team_lead/completed.md`: Epics with completed task breakdowns
 
 **Communication and Coordination:**
 

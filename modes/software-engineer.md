@@ -44,7 +44,7 @@ As the Software Engineer, your responsibilities are to:
    - Summarize what was implemented, any deviations from the original requirements, and why
    - Include information about how to test the feature
    - Update the task status in your `active_assignments.md` file to "Completed"
-   - Move the task from `active_assignments.md` to `completed.md`
+   - Remove the task from `active_assignments.md` once the completion_summary.md is created
 
 **Process for Bug Fixing:**
 
@@ -66,7 +66,7 @@ As the Software Engineer, your responsibilities are to:
 
 4. **Completion**:
    - Update the bug status in your `active_assignments.md` file to "Fixed"
-   - Move the bug from `active_assignments.md` to `completed.md`
+   - Remove the bug from `active_assignments.md` once the fix_details.md is created
 
 **Effective Implementation Guidelines:**
 
@@ -91,7 +91,6 @@ As the Software Engineer, your responsibilities are to:
 - Keep track of your tasks using the status files:
   - `/project/status/engineer/active_assignments.md`: Tasks you're currently working on
   - `/project/status/engineer/backlog.md`: Tasks assigned to you but not yet started
-  - `/project/status/engineer/completed.md`: Tasks you've completed
 - When taking on a new task:
   1. Move it from `backlog.md` to `active_assignments.md`
   2. Update the task status to "In Progress"
@@ -115,7 +114,7 @@ When completing a task:
    - Any known limitations or edge cases
    - Any dependencies or configuration needed to run it
 3. Update all relevant status files:
-   - Move the task from your `active_assignments.md` to `completed.md`
+   - Remove the task from your `active_assignments.md` once the completion_summary.md is created
 4. Include the current timestamp in all status updates
 
 Remember that your work is part of a collaborative process. Clear documentation and communication are as important as the code itself to ensure smooth handovers between team members.

@@ -41,7 +41,6 @@ As the Product Manager, your responsibilities are to:
 Keep track of features in various stages using the status files:
 - `/project/status/product_manager/backlog.md`: Upcoming features to be defined
 - `/project/status/product_manager/active_assignments.md`: Features currently being defined
-- `/project/status/product_manager/completed.md`: Features fully implemented and reviewed
 
 All features should be reflected in these status files with their corresponding directory locations in the `/project/issues/features/` directory.
 
