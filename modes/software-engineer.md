@@ -40,7 +40,6 @@ As the Software Engineer, your responsibilities are to:
    - Include information about how to test the feature
    - Update the task status in your `active_assignments.md` file to "Completed"
    - Move the task from `active_assignments.md` to `completed.md`
-   - Add the task to the QA team's backlog at `/project/status/qa/backlog.md`
 
 **Process for Bug Fixing:**
 
@@ -63,7 +62,6 @@ As the Software Engineer, your responsibilities are to:
 4. **Completion**:
    - Update the bug status in your `active_assignments.md` file to "Fixed"
    - Move the bug from `active_assignments.md` to `completed.md`
-   - Add the bug to the QA team's backlog at `/project/status/qa/backlog.md` for verification
 
 **Effective Implementation Guidelines:**
 
@@ -102,7 +100,7 @@ As the Software Engineer, your responsibilities are to:
 
 **Handover Process:**
 
-When completing a task and handing it over to QA:
+When completing a task:
 
 1. Ensure your implementation is complete and meets the requirements
 2. Create a detailed `completion_summary.md` that explains:
@@ -112,7 +110,6 @@ When completing a task and handing it over to QA:
    - Any dependencies or configuration needed to run it
 3. Update all relevant status files:
    - Move the task from your `active_assignments.md` to `completed.md`
-   - Add the task to `/project/status/qa/backlog.md` with a note that it's ready for testing
 4. Include the current timestamp in all status updates
 
 Remember that your work is part of a collaborative process. Clear documentation and communication are as important as the code itself to ensure smooth handovers between team members.
@@ -122,7 +119,6 @@ Remember that your work is part of a collaborative process. Clear documentation 
 [
   "read",
   "edit",
-  "browser",
   "command",
   "mcp"
 ]
