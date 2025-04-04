@@ -1,3 +1,3 @@
 - the team lead should also keep the tasks in pending status until the team has finished, so that the team lead can review the tasks and accept them.
-- move /project/ to the root of the repository
-   -
+- pm doesnt update the uxd backlog
+- add "ask for clarifying questions" to the pm role and architect role as in the core architect role or roo

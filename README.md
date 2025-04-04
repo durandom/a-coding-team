@@ -58,75 +58,70 @@ This structure ensures that:
 ### **File System Structure**
 ```
 /project
-  ├── status/
-  │   ├── product_manager/            # Status files for Product Manager
-  │   │   ├── active_assignments.md
-  │   │   ├── backlog.md
-  │   │   └── completed.md
-  │   ├── architect/                  # Status files for Software Architect
-  │   │   ├── active_assignments.md
-  │   │   ├── backlog.md
-  │   │   └── completed.md
-  │   ├── team_lead/                  # Status files for Team Lead
-  │   │   ├── active_assignments.md
-  │   │   ├── backlog.md
-  │   │   └── completed.md
-  │   ├── engineer/                   # Status files for Software Engineers
-  │   │   ├── active_assignments.md
-  │   │   ├── backlog.md
-  │   │   └── completed.md
-  │   └── qa/                         # Status files for QA Engineers
-  │       ├── active_assignments.md
-  │       ├── backlog.md
-  │       └── completed.md
-  │
-  ├── issues/
-  │   ├── feature_requests/
-  │   │   ├── FR-001_user_authentication/
-  │   │   │   ├── feature_request.md       # Initial feature request by Product Manager
-  │   │   │   ├── architecture_plan.md     # Software Architect's implementation plan
-  │   │   │   ├── attachments/             # Any relevant diagrams or documents
-  │   │   │   └── epics/                   # Epics created for this feature request
-  │   │   │       ├── EP-001_login_system/
-  │   │   │       │   ├── epic_details.md  # Epic description and requirements
-  │   │   │       │   └── tasks/           # Individual tasks for this epic
-  │   │   │       │       ├── T-001_login_ui/
-  │   │   │       │       │   ├── task_details.md      # Task description
-  │   │   │       │       │   ├── implementation_notes.md # Developer's notes
-  │   │   │       │       │   └── completion_summary.md   # Summary after completion
-  │   │   │       │       ├── T-002_auth_api/
-  │   │   │       │       │   └── ...
-  │   │   │       │
-  │   │   │       ├── EP-002_user_registration/
-  │   │   │       │   └── ...
-  │   │   │
-  │   │   ├── FR-002_payment_gateway/
-  │   │       └── ...
-  │   │
-  │   ├── bugs/
-  │   │   ├── BUG-001_login_timeout/
-  │   │   │   ├── bug_report.md            # Initial bug report
-  │   │   │   ├── investigation_notes.md   # Developer's investigation
-  │   │   │   ├── fix_details.md           # Documentation of the fix
-  │   │   │   └── attachments/             # Screenshots, logs, etc.
-  │   │   │
-  │   │   └── BUG-002_payment_failure/
-  │   │       └── ...
-  │   │
-  │   └── improvements/
-  │       ├── IMP-001_performance_optimization/
-  │       │   └── ...
-  │       └── IMP-002_accessibility_update/
-  │           └── ...
-  │
-  ├── templates/                       # Templates for different types of issues
-  │   ├── feature_request_template.md
-  │   ├── epic_template.md
-  │   ├── task_template.md
-  │   ├── bug_report_template.md
-  │   └── improvement_template.md
-  │
-  └── README.md                        # Overview of the project and workflow
+   ├── status/
+   │   ├── product_manager/            # Status files for Product Manager
+   │   │   ├── active_assignments.md
+   │   │   └── backlog.md
+   │   ├── architect/                  # Status files for Software Architect
+   │   │   ├── active_assignments.md
+   │   │   └── backlog.md
+   │   ├── team_lead/                  # Status files for Team Lead
+   │   │   ├── active_assignments.md
+   │   │   └── backlog.md
+   │   ├── engineer/                   # Status files for Software Engineers
+   │   │   ├── active_assignments.md
+   │   │   └── backlog.md
+   │   └── qa/                         # Status files for QA Engineers
+   │       ├── active_assignments.md
+   │       └── backlog.md
+   │
+   ├── issues/
+   │   ├── feature_requests/
+   │   │   ├── FR-001_user_authentication/
+   │   │   │   ├── feature_request.md       # Initial feature request by Product Manager
+   │   │   │   ├── architecture_plan.md     # Software Architect's implementation plan
+   │   │   │   ├── attachments/             # Any relevant diagrams or documents
+   │   │   │   └── epics/                   # Epics created for this feature request
+   │   │   │       ├── EP-001_login_system/
+   │   │   │       │   ├── epic_details.md  # Epic description and requirements
+   │   │   │       │   └── tasks/           # Individual tasks for this epic
+   │   │   │       │       ├── T-001_login_ui/
+   │   │   │       │       │   ├── task_details.md      # Task description
+   │   │   │       │       │   ├── implementation_notes.md # Developer's notes
+   │   │   │       │       │   └── completion_summary.md   # Summary after completion
+   │   │   │       │       ├── T-002_auth_api/
+   │   │   │       │       │   └── ...
+   │   │   │       │
+   │   │   │       ├── EP-002_user_registration/
+   │   │   │       │   └── ...
+   │   │   │
+   │   │   ├── FR-002_payment_gateway/
+   │   │       └── ...
+   │   │
+   │   ├── bugs/
+   │   │   ├── BUG-001_login_timeout/
+   │   │   │   ├── bug_report.md            # Initial bug report
+   │   │   │   ├── investigation_notes.md   # Developer's investigation
+   │   │   │   ├── fix_details.md           # Documentation of the fix
+   │   │   │   └── attachments/             # Screenshots, logs, etc.
+   │   │   │
+   │   │   └── BUG-002_payment_failure/
+   │   │       └── ...
+   │   │
+   │   └── improvements/
+   │       ├── IMP-001_performance_optimization/
+   │       │   └── ...
+   │       └── IMP-002_accessibility_update/
+   │           └── ...
+   │
+   ├── templates/                       # Templates for different types of issues
+   │   ├── feature_request_template.md
+   │   ├── epic_template.md
+   │   ├── task_template.md
+   │   ├── bug_report_template.md
+   │   └── improvement_template.md
+   │
+   └── README.md                        # Overview of the project and workflow
 ```
 
 ## 📊 **Assignment and Status Tracking**
@@ -136,31 +131,26 @@ To efficiently manage tasks between LLM sessions without requiring the model to 
 ### **Role-Specific Status Directories**
 ```
 /project
-  ├── status/
-  │   ├── product_manager/
-  │   │   ├── active_assignments.md   # Current tasks for Product Manager
-  │   │   ├── backlog.md              # Upcoming feature requests
-  │   │   └── completed.md            # Completed feature definitions
-  │   │
-  │   ├── architect/
-  │   │   ├── active_assignments.md   # Current tasks for Software Architect
-  │   │   ├── backlog.md              # Feature requests awaiting architecture
-  │   │   └── completed.md            # Completed architecture plans
-  │   │
-  │   ├── team_lead/
-  │   │   ├── active_assignments.md   # Current epics for Team Lead
-  │   │   ├── backlog.md              # Epics awaiting breakdown
-  │   │   └── completed.md            # Completed epic breakdowns
-  │   │
-  │   ├── engineer/
-  │   │   ├── active_assignments.md   # Current tasks for Engineers
-  │   │   ├── backlog.md              # Tasks ready for implementation
-  │   │   └── completed.md            # Completed implementations
-  │   │
-  │   └── qa/
-  │       ├── active_assignments.md   # Current testing tasks
-  │       ├── backlog.md              # Tasks awaiting QA
-  │       └── completed.md            # Completed test cycles
+   ├── status/
+   │   ├── product_manager/
+   │   │   ├── active_assignments.md   # Current tasks for Product Manager
+   │   │   └── backlog.md              # Upcoming feature requests
+   │   │
+   │   ├── architect/
+   │   │   ├── active_assignments.md   # Current tasks for Software Architect
+   │   │   └── backlog.md              # Feature requests awaiting architecture
+   │   │
+   │   ├── team_lead/
+   │   │   ├── active_assignments.md   # Current epics for Team Lead
+   │   │   └── backlog.md              # Epics awaiting breakdown
+   │   │
+   │   ├── engineer/
+   │   │   ├── active_assignments.md   # Current tasks for Engineers
+   │   │   └── backlog.md              # Tasks ready for implementation
+   │   │
+   │   └── qa/
+   │       ├── active_assignments.md   # Current testing tasks
+   │       └── backlog.md              # Tasks awaiting QA
 ```
 
 Each role has its own status directory, allowing the LLM to focus only on the relevant assignments for that role.
@@ -208,7 +198,7 @@ At the end of each LLM session, update the relevant status files for your role:
 2. Update your role's `active_assignments.md` with new progress
 3. Add the current timestamp to the "Last Updated" field for any modified tasks
 4. Update the document header timestamp (e.g., "Last Modified: 2025-04-02 14:30")
-5. Move completed tasks to your role's `completed.md`
+5. Mark completed tasks in your role's `backlog.md` with a "Completed" status
 6. Pull new tasks from your role's `backlog.md` as needed
 
 If your work creates tasks for another role:
