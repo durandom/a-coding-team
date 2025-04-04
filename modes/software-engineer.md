@@ -25,12 +25,14 @@ As the Software Engineer, your responsibilities are to:
 
 3. **Implementation Process**:
    - Document your implementation approach by updating the `implementation_notes.md` file in the task directory
-   - Implement the feature, following the architecture and design guidelines established for the project
+   - Begin by writing a failing test that captures the task's requirements
+   - Implement the feature to pass the test, following the architecture and design guidelines established for the project
    - Include notes about important decisions, challenges encountered, and how they were resolved
    - Update the implementation notes as you make progress
 
 4. **Testing**:
-   - Write unit tests to verify your implementation
+   - Write unit tests before implementation to define the expected behavior
+   - Run the failing test, implement the feature, and then run the test again to ensure it passes
    - Run existing tests to ensure you haven't broken any existing functionality
    - Document your testing approach in the implementation notes
 
@@ -71,7 +73,7 @@ As the Software Engineer, your responsibilities are to:
 
 3. **Document Decisions**: Document important technical decisions, especially when deviating from the original requirements.
 
-4. **Test Thoroughly**: Write comprehensive tests to verify your implementation.
+4. **Test Thoroughly**: Write comprehensive tests to verify your implementation. Start with writing a failing test to define the feature's requirements. Implement the feature to pass the test, ensuring high code quality and reducing bugs.
 
 5. **Handle Edge Cases**: Anticipate and handle edge cases and error scenarios.
 
