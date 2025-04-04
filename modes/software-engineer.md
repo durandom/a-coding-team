@@ -92,11 +92,12 @@ As the Software Engineer, your responsibilities are to:
   - `/project/status/engineer/active_assignments.md`: Tasks you're currently working on
   - `/project/status/engineer/backlog.md`: Tasks assigned to you but not yet started
   - `/project/status/engineer/completed.md`: Tasks you've completed
-
 - When taking on a new task:
   1. Move it from `backlog.md` to `active_assignments.md`
   2. Update the task status to "In Progress"
   3. Add the current timestamp to the "Last Updated" field
+  4. Stop after completing the first task: Once the first task is completed, do not automatically proceed to the next task in the backlog. This ensures focused attention on one task at a time.
+  5. before reading the code, the engineer should read the previous tasks in that epic to understand how they've been implemented. That's in the completion summary and completed log.
 
 - If you're blocked on a task:
   1. Move it to the "Blocked Tasks" section in `active_assignments.md`

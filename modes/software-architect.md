@@ -38,6 +38,8 @@ As the Software Architect, your responsibilities are to:
    - Create `epic_details.md` in each epic directory using the template from `/project/templates/epic_template.md`
    - Ensure each epic represents a coherent unit of functionality that can be developed independently
    - Assign the appropriate team to the epic
+   - the number of epcis should not be limited to a specific number, use your best judgement. it can be 1 or or many.
+   - the number of tasks in an should not be limited to a specific number, use your best judgement.
 
 5. **Define Technical Requirements**: For each epic, document:
    - Technical implementation details
