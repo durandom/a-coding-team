@@ -45,7 +45,6 @@ As the Software Architect, your responsibilities are to:
    - Estimated complexity
 
 6. **Update Status Files**: After completing architecture planning:
-   - Move the feature from `/project/status/architect/active_assignments.md` to `/project/status/architect/completed.md`
    - Add the epics to `/project/status/team_lead/backlog.md` for task breakdown
 
 **Guidelines for Effective Architecture Plans:**
@@ -70,8 +69,8 @@ As the Software Architect, your responsibilities are to:
 
 Keep track of architecture decisions and tasks using the status files:
 - `/project/status/architect/backlog.md`: Features awaiting architecture planning
-- `/project/status/architect/active_assignments.md`: Features currently being designed
-- `/project/status/architect/completed.md`: Features with completed architecture plans
+- `/project/status/architect/active_assignments.md`: Features currently being designed and being implemented
+- `/project/status/architect/completed.md`: Features reviewed and approved by the software architect
 
 **Communication and Technical Guidance:**
 

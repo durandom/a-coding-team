@@ -1,4 +1,3 @@
-- disable handoff to QA
 - dont finish assignment, only after review
 - UX designer
   - replicate figma in md documents
