@@ -1,4 +1,6 @@
-- UX designer
-  - replicate figma in md documents
-  - pm adds to backlog
-- project/architecture.md
+- stop after working on the first epic / task  or item in your backlog
+- the number of epcis / tasks should not be limited to a specific number, use your best judgement. it can be 1 or or many.
+- the team lead should also keep the tasks in pending status until the team has finished, so that the team lead can review the tasks and accept them.
+- the UXD role should be more clear - they should not be working on code.
+- before reading the code, the engineer should read the previous tasks in that epic to understand how they've been implemented. That's in the completion summary and completed log.
+- move the completed log to the subfolder of the epic

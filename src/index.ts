@@ -322,11 +322,6 @@ function processModesDirectoryForJson2Md(modesDir: string): void {
     let validFilesCount = 0;
 
     for (const file of jsonFiles) {
-      // skip files that start with `template.`
-      if (file.startsWith('template.')) {
-        console.log(`Skipping ${file} - template file`);
-        continue;
-      }
       const filePath = join(modesDir, file);
       const validation = isValidModeFile(filePath);
       if (validation.valid) {
@@ -366,11 +361,6 @@ function processModesDirectoryForMd2Json(modesDir: string): void {
     let processedFilesCount = 0;
 
     for (const file of markdownFiles) {
-      // skip files that start with `template.`
-      if (file.startsWith('template.')) {
-        console.log(`Skipping ${file} - template file`);
-        continue;
-      }
       const filePath = join(modesDir, file);
       const validation = isValidMarkdownFile(filePath);
 
@@ -559,6 +549,12 @@ function bundleModesFiles(modesDir: string): void {
     for (const file of jsonFiles) {
       const filePath = join(modesDir, file);
       const validation = isValidModeFile(filePath);
+
+      // skip files that start with `template.`
+      if (file.startsWith('template.')) {
+        console.log(`Skipping ${file} - template file`);
+        continue;
+      }
 
       if (validation.valid) {
         try {

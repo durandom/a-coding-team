@@ -77,29 +77,6 @@
         ]
       ],
       "source": "project"
-    },
-    {
-      "slug": "example-mode",
-      "name": "Example Mode",
-      "roleDefinition": "You are an example mode that demonstrates the structure of a custom mode.",
-      "groups": [
-        "read",
-        [
-          "edit",
-          {
-            "fileRegex": "\\.md$",
-            "description": "Markdown files only"
-          }
-        ],
-        "browser",
-        "command"
-      ],
-      "customInstructions": "This is where you would put your custom instructions for the mode.\n\nYou can include multiple paragraphs, code examples, and other markdown formatting.\n\n## Example Section\n\n- Bullet points\n- More bullet points\n\n```\nCode examples can be included here\n```",
-      "apiConfiguration": {
-        "model": "gpt-4",
-        "temperature": 0.2
-      },
-      "source": "custom"
     }
   ]
 }
