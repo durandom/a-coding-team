@@ -56,6 +56,12 @@ printf "$ACTIVE_HEADER_TEMPLATE" "QA" "testing tasks" > project/status/qa/active
 printf "$BACKLOG_HEADER_TEMPLATE" "QA" "testing tasks" "testing tasks" "testing tasks" > project/status/qa/backlog.md
 printf "$COMPLETED_HEADER_TEMPLATE" "QA" "bug reports and test cases" > project/status/qa/completed.md
 
+cat > project/architecture.md << 'EOL'
+# Architecture Overview
+
+This file provides a high-level overview of the project. It documents recurring patterns and standards used.
+EOL
+
 # Create basic templates
 cat > project/templates/feature_template.md << 'EOL'
 # Feature: [F-XXX_feature_name]
@@ -86,6 +92,10 @@ cat > project/templates/epic_template.md << 'EOL'
 
 ## Parent Feature
 [F-XXX_feature_name]
+
+## Team
+[Team responsible for this epic]
+Select from the following: Software Engineering, User Experience and Design UXD, Deployment
 
 ## Overview
 [Brief description of this epic and its scope]
@@ -208,7 +218,7 @@ cat > project/README.md << 'EOL'
 This repository implements an **AI-driven development workflow** using structured files and clear role-based transitions. It ensures that tasks are well-documented, handed over smoothly, and tracked properly, even in the absence of external issue-tracking tools.
 
 ## Project Overview
-[Brief description of your project goes here]
+The /project/architecture.md file provides a high-level overview of the project, including recurring patterns and standards used.
 
 ## Getting Started
 1. Check the appropriate status directory for your role:
@@ -253,7 +263,7 @@ The `/issues/` directory serves as our file-based ticketing system with three ma
 - Similar structure to features but focused on enhancements to existing features
 
 ## Project Structure
-This project follows a structured file-based workflow as described in detail in our main documentation.
+This project follows a structured file-based workflow.
 
 ## Roles and Responsibilities
 - **Product Manager**: Defines features, roadmap, and user stories
@@ -261,8 +271,6 @@ This project follows a structured file-based workflow as described in detail in 
 - **Team Lead**: Breaks down epics into manageable tasks
 - **Software Engineer**: Implements features, writes tests, and maintains the codebase
 - **QA Engineer**: Tests features, writes automated/manual test cases, and tracks bugs
-
-For detailed workflow information, refer to our main documentation.
 EOL
 
 # Create .keep files for all empty directories

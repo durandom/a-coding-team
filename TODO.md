@@ -1,4 +1,3 @@
-- dont finish assignment, only after review
 - UX designer
   - replicate figma in md documents
   - pm adds to backlog

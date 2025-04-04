@@ -3,7 +3,7 @@
 This repository implements an **AI-driven development workflow** using structured files and clear role-based transitions. It ensures that tasks are well-documented, handed over smoothly, and tracked properly, even in the absence of external issue-tracking tools.
 
 ## Project Overview
-[Brief description of your project goes here]
+The /project/architecture.md file provides a high-level overview of the project, including recurring patterns and standards used.
 
 ## Getting Started
 1. Check the appropriate status directory for your role:
@@ -48,7 +48,7 @@ The `/issues/` directory serves as our file-based ticketing system with three ma
 - Similar structure to features but focused on enhancements to existing features
 
 ## Project Structure
-This project follows a structured file-based workflow as described in detail in our main documentation.
+This project follows a structured file-based workflow.
 
 ## Roles and Responsibilities
 - **Product Manager**: Defines features, roadmap, and user stories
@@ -56,5 +56,3 @@ This project follows a structured file-based workflow as described in detail in 
 - **Team Lead**: Breaks down epics into manageable tasks
 - **Software Engineer**: Implements features, writes tests, and maintains the codebase
 - **QA Engineer**: Tests features, writes automated/manual test cases, and tracks bugs
-
-For detailed workflow information, refer to our main documentation.

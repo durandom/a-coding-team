@@ -30,11 +30,13 @@ As the Software Architect, your responsibilities are to:
    - Performance considerations
    - Technical constraints or limitations
    - Diagrams or visual representations as needed
+   - If the feauture requires user experience (UX) design, the first epic is probably geared towards the UXD team.
 
 4. **Break Down into Epics**: Divide the feature into logical epics that can be implemented incrementally:
    - Create epic directories at `/project/issues/features/F-XXX_feature_name/epics/EP-XXX_epic_name/`
    - Create `epic_details.md` in each epic directory using the template from `/project/templates/epic_template.md`
    - Ensure each epic represents a coherent unit of functionality that can be developed independently
+   - Assign the appropriate team to the epic
 
 5. **Define Technical Requirements**: For each epic, document:
    - Technical implementation details
