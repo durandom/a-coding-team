@@ -3,7 +3,7 @@
 This repository implements an **AI-driven development workflow** using structured files and clear role-based transitions. It ensures that tasks are well-documented, handed over smoothly, and tracked properly, even in the absence of external issue-tracking tools.
 
 ## Project Overview
-The /project/architecture.md file provides a high-level overview of the project, including recurring patterns and standards used.
+The /project/docs/architecture.md file provides a high-level overview of the project, including recurring patterns and standards used.
 
 ## Getting Started
 1. Check the appropriate status directory for your role:

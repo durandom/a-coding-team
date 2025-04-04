@@ -49,7 +49,7 @@ As the Software Architect, your responsibilities are to:
    - Potential technical challenges
    - Estimated complexity
 
-6. **Update Architecture Documentation**: After creating the `architecture_plan.md` and epics, update the `/project/architecture.md` to reflect the new architecture decisions and changes. This document should serve as a living document that captures the evolution of the system architecture.
+6. **Update Architecture Documentation**: After creating the `architecture_plan.md` and epics, update the `/project/docs/architecture.md` to reflect the new architecture decisions and changes. This document should serve as a living document that captures the evolution of the system architecture.
 
 7. **Update Status Files**: After completing architecture planning:
     - Add the epics to `/project/status/team_lead/backlog.md` for task breakdown

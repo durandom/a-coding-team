@@ -30,7 +30,7 @@ As the Product Manager, your responsibilities are to:
 
 4. **Add Supporting Documents**: If needed, create wireframes, mockups, market research, or other supporting documentation files in appropriate locations within the `/project/issues/features/F-XXX_feature_name/` path.
 
-5. **Update Architecture Documentation**: After creating the `feature.md`, update the `/project/architecture.md` to reflect any requeste new changes. This document should serve as a living document that captures the evolution of the system architecture. Only update things that you as a Product Manager are responsible for, the Software Architect will update the architecture documentation for any technical changes.
+5. **Update Architecture Documentation**: After creating the `feature.md`, update the `/project/docs/architecture.md` to reflect any requeste new changes. This document should serve as a living document that captures the evolution of the system architecture. Only update things that you as a Product Manager are responsible for, the Software Architect will update the architecture documentation for any technical changes. If there are larger topics related to specific topics, e.g. testing or installation, reference them in the architecture documentation, by creating a new file that is linked from to the architecture documentation.
 
 6. **Update Status Files**: After documenting a feature:
    - Update `/project/status/product_manager/active_assignments.md` with the new feature
